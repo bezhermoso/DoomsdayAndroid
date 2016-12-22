@@ -17,7 +17,7 @@ import { Colors } from '../Themes'
 
 
 type QuizScreenProps = {
-  date: string,
+  date: moment.Moment,
   guess: null | number,
   result: null | number,
   tryGuess: (dayIndex) => void,
@@ -52,7 +52,7 @@ class QuizScreen extends React.Component {
   }
 
   render () {
-    let date = moment(this.props.date);
+    let date = this.props.date;
     let formattedDate = date.format('DD MMM YYYY');
 
     let quizText = null;
@@ -120,7 +120,7 @@ class QuizScreen extends React.Component {
       'Hints',
       hint,
       [
-        { text: 'More Hints', onPress: () => { this.moreHints(date) } },
+        { text: 'More Hints...', onPress: () => { this.moreHints(date) } },
         { text: 'Cancel', onPress: () => {} }
       ]
     );
@@ -144,7 +144,7 @@ class QuizScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    date: state.quiz.date,
+    date: moment(state.quiz.date),
     guess: state.quiz.guess,
     result: state.quiz.result
   }
