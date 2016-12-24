@@ -7,28 +7,33 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   quizText: {
     ...ApplicationStyles.screen.sectionText,
-    fontSize: 18,
-    color: Colors.charcoal
+    fontSize: 16,
+    color: Colors.cream,
+    textShadowColor: Colors.blackStone,
+    textShadowOffset: { width: 1, height: 2 }
   },
   quizDateText: {
     ...ApplicationStyles.screen.sectionText,
     fontSize: 50,
     marginVertical: 0,
-    color: Colors.fire,
-    textShadowColor: '#8e2122',
-    textShadowOffset: { width: 0, height: 1 }
+    color: Colors.cream,
+    textShadowColor: Colors.blackStone,
+    textShadowOffset: { width: 1, height: 3 }
   },
   dayButton: {
     fontSize: 10
   },
   buttonContainer: {
+    paddingTop: 10
   },
   quizView: {
-    marginTop: 10
+    paddingVertical: 10,
+    backgroundColor: Colors.stone,
+    elevation: 10
   },
   container: {
     flex: 1,
     marginTop: Metrics.navBarHeight,
-    backgroundColor: Colors.frost
+    backgroundColor: Colors.blackStone
   }
 })

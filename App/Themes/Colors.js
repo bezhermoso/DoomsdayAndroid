@@ -1,7 +1,7 @@
 // @flow
 
 const colors = {
-  background: '#1F0808',
+  background: '#193441',
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
   transparent: 'rgba(0,0,0,0)',
@@ -19,7 +19,15 @@ const colors = {
   snow: 'white',
   ember: 'rgba(164, 0, 48, 0.5)',
   fire: '#e73536',
-  drawer: 'rgba(30, 30, 29, 0.95)'
+  drawer: 'rgba(30, 30, 29, 0.95)',
+  cream: '#FCFFF5',
+  darkCream: '#D1DBBD',
+  weed: '#91AA9D',
+  stone: '#3E606F',
+  statusBar: '#2b5260',
+  blackStone: '#193441',
+  orange: '#FF9311',
+  redOrange: '#D64700'
 }
 
 export default colors

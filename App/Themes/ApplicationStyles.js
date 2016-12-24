@@ -31,7 +31,7 @@ const ApplicationStyles = {
       borderTopColor: Colors.frost,
       borderTopWidth: 0.5,
       borderBottomColor: Colors.frost,
-      borderBottomWidth: 1
+      borderBottomWidth: 0
     },
     sectionText: {
       color: Colors.snow,
@@ -71,6 +71,13 @@ const ApplicationStyles = {
     borderColor: Colors.ember,
     alignItems: 'center',
     textAlign: 'center'
+  },
+  subsectionTitle: {
+    ...Fonts.style.h5,
+    color: Colors.darkCream,
+    padding: Metrics.smallMargin,
+    marginTop: Metrics.smallMargin,
+    marginHorizontal: Metrics.baseMargin
   }
 }
 

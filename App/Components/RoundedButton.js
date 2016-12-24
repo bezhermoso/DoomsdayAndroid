@@ -25,7 +25,7 @@ export default class RoundedButton extends React.Component {
 
   getText () {
     const buttonText = this.props.text || this.props.children || ''
-    return buttonText.toUpperCase()
+    return buttonText;
   }
 
   render () {

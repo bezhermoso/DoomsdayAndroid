@@ -57,11 +57,10 @@ class DrawerContent extends Component {
     return (
       <ScrollView style={styles.container}>
         <DrawerButton text='Quiz' onPress={this.handlePressQuiz} />
-        <DrawerButton text='Component Examples' onPress={this.handlePressComponents} />
-        <DrawerButton text='Usage Examples' onPress={this.handlePressUsage} />
-        <DrawerButton text='API Testing' onPress={this.handlePressAPI} />
-        <DrawerButton text='Themes' onPress={this.handlePressTheme} />
-        <DrawerButton text='Device Info' onPress={this.handlePressDevice} />
+        <DrawerButton text='Leap Year Quiz' onPress={this.handlePressQuiz} />
+        <DrawerButton text='The Algorithm' onPress={this.handlePressQuiz} />
+        <DrawerButton text='Cheatsheet' onPress={this.handlePressQuiz} />
+        <DrawerButton text='Settings' onPress={this.handlePressQuiz} />
       </ScrollView>
     )
   }

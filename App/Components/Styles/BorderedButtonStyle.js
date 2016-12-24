@@ -4,16 +4,17 @@ import { StyleSheet } from 'react-native'
 import { Fonts, Colors, Metrics } from '../../Themes/'
 
 export default StyleSheet.create({
-  button: {
+  borderedButton: {
     height: 45,
     borderRadius: 5,
     marginHorizontal: Metrics.section,
-    marginVertical: Metrics.baseMargin,
-    backgroundColor: Colors.redOrange,
+    marginVertical: Metrics.baseMargin - 2,
+    backgroundColor: Colors.clear,
+    borderColor: Colors.stone,
+    borderWidth: 1,
     justifyContent: 'center',
-    elevation: 3
   },
-  buttonText: {
+  borderedButtonText: {
     color: Colors.cream,
     textAlign: 'center',
     fontWeight: 'bold',

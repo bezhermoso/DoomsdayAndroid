@@ -9,7 +9,7 @@ import moment from 'moment';
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuizActions from '../Redux/QuizRedux';
-//import { Actions as NavigationActions } from 'react-native-router-flux';
+import { Actions as NavigationActions } from 'react-native-router-flux';
 
 // Styles
 import styles from './Styles/QuizScreenStyle'
@@ -58,12 +58,12 @@ class QuizScreen extends React.Component {
     let quizText = null;
     if (this.props.result === null) {
       quizText = (<View style={styles.quizView}>
-          <Text style={styles.quizDateText} onLongPress={() => this.showHints(date)}>{formattedDate.toUpperCase()}</Text>
+          <Text style={styles.quizDateText} onLongPress={() => this.showHints(date)}>{formattedDate}</Text>
           <Text style={styles.quizText}>is on a</Text>
         </View>);
     } else {
       quizText = (<View style={styles.quizView}>
-        <Text style={styles.quizDateText}>{this.props.result ? 'Correct!' : 'Wrong!'}</Text>
+        <Text style={styles.quizDateText}>{this.props.result ? 'Correct!' : 'Wrong :('}</Text>
         <Text style={styles.quizText}> </Text>
       </View>);
     }
@@ -80,11 +80,11 @@ class QuizScreen extends React.Component {
         <View style={styles.buttonContainer}>
           {this.state.days.map(day => {
             if (this.props.result === null) {
-              return <RoundedButton key={day.key} onPress={() => this.props.tryGuess(day.key)} style={styles.dayButton}>{day.name}</RoundedButton>;
+              return <BorderedButton key={day.key} onPress={() => this.props.tryGuess(day.key)} style={styles.dayButton}>{day.name}</BorderedButton>;
             } else if (date.day() === day.key) {
               return <RoundedButton key={day.key} onPress={() => { this.explain() }} style={styles.dayButton}>{formattedDate + ' is on a ' + day.name}</RoundedButton>;
             } else {
-              return <BorderedButton key={day.key} style={styles.sectionText}>{day.name}</BorderedButton>;
+              return <BorderedButton key={day.key} textStyle={{ color: Colors.stone }}>{day.name}</BorderedButton>;
             }
           })}
         </View>
@@ -102,20 +102,20 @@ class QuizScreen extends React.Component {
   }
 
   explain() {
+    NavigationActions.explain();
   }
 
   showHints(date) {
-    let index = moment([date.year(), 2, 1])
+    let century = Math.floor(date.year() / 100) * 100;
+    let index = moment([century, 2, 1])
       .subtract(1, 'day')
       .weekday();
     let centuryDoomsday = this.state.days[index];
     let leapYear = date.isLeapYear();
 
-    let hint = `
-    Doomsday of Century: ${centuryDoomsday.name}
+    let hint = `Doomsday of ${century}: ${centuryDoomsday.name}
     
-    ${date.year()} ${leapYear ? 'is' : 'is not'} a leap-year.
-`
+ ${date.year()} ${leapYear ? 'is' : 'is not'} a leap-year.`
     Alert.alert(
       'Hints',
       hint,
