@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { ScrollView, Text } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import moment from 'moment';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -31,18 +31,67 @@ class ExplanationScreen extends React.Component {
     let remainder = this.props.distance % 12;
     let noOf4s = Math.floor(remainder / 4);
     let offset = noOf12s + remainder + noOf4s;
-    let keyDateForMonth = this.keyDateForMonth(this.props.date.month() + 1);
+    let keyDateForMonth = this.keyDateForMonth(this.props.date.month() + 1, this.props.date.isLeapYear());
     let dateInMonth = this.props.date.date();
     let keyDistance = Math.max(keyDateForMonth, dateInMonth) - Math.min(keyDateForMonth, dateInMonth);
 
     let preface = null;
 
-    if (this.props.date.isLeapYear()) {
+    if (this.props.date.month() < 3) {
       preface = (
         <Text style={styles.explanationText}>
-          <Emphasized>{this.props.date.year()} is a leap-year ({this.props.distance} % 4 = 0)</Emphasized>
+          <Emphasized>{this.props.date.year()} {this.props.date.isLeapYear() ? 'is a' : 'is not a' } leap-year</Emphasized>
         </Text>
       );
+    }
+
+    let dateOps = [];
+    let day = this.props.doomsday.day();
+
+    if (keyDateForMonth > dateInMonth) {
+      let result = (day - (keyDistance % 7));
+      dateOps.push(
+        <Text style={styles.explanationText}>
+          Key date &gt; given date; <Emphasized>Doomsday - (distance % 7)</Emphasized>
+        </Text>
+      );
+      dateOps.push(
+        <Text style={styles.explanationText}>
+          {this.props.doomsday.format('dddd')} - ({keyDistance} % 7) = {day} - {keyDistance % 7} = {result}
+        </Text>
+      );
+      if (result < -6) {
+        <Text style={styles.explanationText}>
+          {result} = { result % 7 }
+        </Text>
+        result = result % 7;
+      }
+
+      if (result < 0) {
+        dateOps.push(
+          <Text style={styles.explanationText}>
+          {result} = {result + 7}
+        </Text>);
+        result = result + 7;
+      }
+
+    } else {
+      let result = (day + (keyDistance % 7));
+      dateOps.push(
+        <Text style={styles.explanationText}>
+          Key date &lt; given date; <Emphasized>Doomsday + (distance % 7)</Emphasized>
+        </Text>
+      );
+      dateOps.push(
+        <Text style={styles.explanationText}>
+          {this.props.doomsday.format('dddd')} + ({keyDistance} % 7) = {day} + {keyDistance % 7} = {result}
+        </Text>
+      )
+      if (result > 6) {
+        dateOps.push(<Text style={styles.explanationText}>
+          {result} % 7 = {result % 7}
+        </Text>);
+      }
     }
 
     return (
@@ -72,7 +121,7 @@ class ExplanationScreen extends React.Component {
         <Text style={styles.explanationText}>
           Doomsday of {this.props.date.year()} = <Emphasized>{this.props.doomsday.format('dddd')}</Emphasized>
         </Text>
-        <Text style={styles.explanationTitle}>Day-of-Week</Text>
+        <Text style={styles.explanationTitle}>Day-of-week of {this.props.date.format('DD MMMM')}</Text>
         {preface}
         <Text style={styles.explanationText}>
           Key date of {this.props.date.format('MMMM')} = <Emphasized>{keyDateForMonth}</Emphasized>
@@ -80,9 +129,9 @@ class ExplanationScreen extends React.Component {
         <Text style={styles.explanationText}>
           Distance = {Math.max(keyDateForMonth, dateInMonth)} - {Math.min(keyDateForMonth, dateInMonth)} = <Emphasized>{keyDistance}</Emphasized>
         </Text>
-        <Text style={styles.explanationText}>
-          Day-of-Week = ({keyDistance} + {this.props.doomsday.format('dddd')}) % 7 = {keyDistance + this.props.doomsday.day()} % 7 = <Emphasized>{this.props.date.day()}</Emphasized>
-        </Text>
+        {dateOps.map((e, i) => {
+          return <View key={i}>{e}</View>
+        })}
         <Text style={styles.explanationText}>
           Day-of-Week = <Emphasized>{this.props.date.format('dddd')}</Emphasized>
         </Text>
@@ -95,6 +144,8 @@ class ExplanationScreen extends React.Component {
       return leapYear ? 4 : 3;
     } else if (month === 2) {
       return leapYear ? 29 : 28;
+    } else if (month === 3) {
+      return 7;
     } else if (month % 2 === 0) {
       return month;
     } else {
